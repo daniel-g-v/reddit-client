@@ -1,16 +1,34 @@
-import { React, useState, useEffect } from 'react';
+import { React } from 'react';
+import Post from '../Post/Post';
+import { makeStyles } from '@mui/styles';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectPosts } from '../../features/Posts/postsSlice';
+import { fetchPosts } from '../../features/Posts/postsSlice';
+
+const useStyles =  makeStyles( theme => ({
+    offset: theme.mixins.toolbar
+}))
 
 const RedditPosts = () => {
-    const {posts, setPosts} = useState([]);
-
+    const classes = useStyles();
+    const dispatch = useDispatch();
+    const childrenArray = useSelector(selectPosts);
+    useEffect(() => {
+        dispatch(fetchPosts());
+    }, [dispatch])
     
     return (
         <div>
-            {
-                posts.map(post => <Post />)
-            }      
+            <div className={classes.offset}></div>
+                {  
+                    childrenArray.map( (dataObject, index) => (
+                        <Post key={index} data={dataObject.data}/>
+                    ) )
+                    }
+            <div className={classes.offset}></div>
         </div>
     )
 }
 
-export default RedditPosts
+export default RedditPosts;

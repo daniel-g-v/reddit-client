@@ -20,7 +20,7 @@ const Navbar = () => {
                         <RedditIcon color='secondary' fontSize='large' sx={{marginRight: '6px', marginTop: '2px', marginLeft: '10px'}}/>
                         <Hidden smDown>
                             <Typography variant="h6" color='secondary' sx={{paddingTop: '0.4rem', fontWeight: 'bold'}}>
-                            Reddit
+                                Reddit
                             </Typography>
                             <Typography variant="h6" color="initial" sx={{paddingTop: '0.4rem', fontWeight: 'bold'}}>
                                 Minimal
