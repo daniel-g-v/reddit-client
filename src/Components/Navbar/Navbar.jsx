@@ -5,15 +5,21 @@ import Typography from '@mui/material/Typography';
 import RedditIcon from '@mui/icons-material/Reddit';
 import Searchbar from './Searchbar.jsx';
 import { Box, Hidden, Grid }from '@mui/material';
+import { IconButton } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { changeSubreddit } from '../../features/subredditsSlice.js';
 
 
 const Navbar = () => {
     
+    const dispatch = useDispatch();
+
     return (
         <AppBar position="fixed" >
           <Toolbar>
             <Grid container>
                 <Grid item xl={4} lg={4} md={4} sm={4} xs={3}>
+                    <IconButton onClick={() => dispatch(changeSubreddit(``))}>
                     <Box sx={{
                         display: 'flex'
                     }}>
@@ -27,6 +33,7 @@ const Navbar = () => {
                             </Typography>
                         </Hidden>
                     </Box>
+                    </IconButton>
                 </Grid>
                 <Grid item xl={4} lg={4} md={4} sm={5} xs={6}>    
                     <Searchbar />

@@ -1,10 +1,20 @@
-import React from 'react'
+import { React, useState }from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { styled, alpha } from '@mui/material/styles';
+import { selectSearchTerm, setSearchTerm } from '../../features/SearchBar/searchBarSlice';
+import { useSelector, useDispatch } from 'react-redux';
+
+
 
 const Searchbar = () => {
+    const searchTerm = useSelector(selectSearchTerm);
+    const dispatch = useDispatch();
     
+    const changeHandler = (e) => {
+      dispatch(setSearchTerm(e.target.value));
+    };
+
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
@@ -53,6 +63,8 @@ const Searchbar = () => {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              value={searchTerm}
+              onChange={changeHandler}
             />
         </Search>
     )

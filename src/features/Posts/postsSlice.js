@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
+
 export const fetchPosts = createAsyncThunk(
     'posts/fetchPosts',
-    async () => {
-        const response = await fetch(`https://www.reddit.com/r/webdev.json`);
+    async (subreddit) => {
+        const response = await fetch(`https://www.reddit.com/${subreddit}.json`);
         const json = await response.json();
         return json;
     }
@@ -70,4 +71,6 @@ export const { removeComments } = postSlice.actions;
 export default postSlice.reducer;
 export const selectPosts = (state) => state.posts.posts;
 export const isLoading = (state) => state.posts.isLoading;
+export const isLoadingComments = (state) => state.posts.isLoadingComments;
 export const selectComments = (state) => state.posts.comments;
+
