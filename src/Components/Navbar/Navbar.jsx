@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { changeSubreddit } from '../../features/subredditsSlice.js';
 
 
+
 const Navbar = () => {
     
     const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const Navbar = () => {
           <Toolbar>
             <Grid container>
                 <Grid item xl={4} lg={4} md={4} sm={4} xs={3}>
-                    <IconButton onClick={() => dispatch(changeSubreddit(``))}>
+                    <IconButton onClick={() => dispatch(changeSubreddit(''))}>
                     <Box sx={{
                         display: 'flex'
                     }}>

@@ -7,7 +7,9 @@ import { selectPosts, fetchPosts, isLoading } from '../../features/Posts/postsSl
 import { selectSubreddit } from '../../features/subredditsSlice';
 import Loader from "react-loader-spinner";
 import { Box } from '@mui/system';
-import Typography from '@mui/material/Typography'
+import Typography from '@mui/material/Typography';
+import { logos } from '../../utils/subredditLogos';
+import { Avatar, Stack } from '@mui/material';
 
 const useStyles =  makeStyles( theme => ({
     offset: theme.mixins.toolbar
@@ -23,18 +25,25 @@ const RedditPosts = () => {
     useEffect(() => {
         dispatch(fetchPosts(subreddit));
     }, [dispatch, subreddit])
+
+    const subredditString = <Typography variant="h4">{subreddit}</Typography>
     
+
     return (
         <div>
             <div className={classes.offset}></div>
-                <Typography variant="h4" color="secondary" sx={{marginTop: 1}}>
                     {
-                        subreddit === "" ? 'Popular Posts' : subreddit
+                        subreddit === "" ? <Typography variant="h4" sx={{marginTop: 1}}>Popular Posts</Typography> : 
+                            <div>
+                                <Stack direction='row' spacing={2} sx={{marginTop: 1}}>
+                                    <Avatar alt={subreddit} src={logos[subreddit.slice(2)]}></Avatar>   
+                                    {subredditString}
+                                </Stack>
+                            </div>                          
                     }
-                </Typography>
                 {  !postsLoading  ?
                     childrenArray.map( (dataObject, index) => (
-                        <Post key={index} data={dataObject.data}/>
+                        <Post key={index} data={dataObject.data}/> 
                     ) ) : <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
                             <Loader type="BallTriangle" color="#00BFFF" height={65} width={65} />
                         </Box>

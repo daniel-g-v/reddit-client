@@ -4,12 +4,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-import ImageIcon from '@mui/icons-material/Image';
 import { makeStyles } from '@mui/styles';
 import { changeSubreddit } from '../../features/subredditsSlice';
 import { useDispatch } from 'react-redux';
 import { alpha } from '@mui/material/styles';
 import { ListItemButton } from '@mui/material';
+import { logos } from '../../utils/subredditLogos';
 
 const useStyles =  makeStyles( theme => ({
   offset: theme.mixins.toolbar,
@@ -35,15 +35,14 @@ export default function Subreddits() {
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
       {
         subredditsList.map((subreddit, index) => (
-        <ListItemButton className={classes.hover} sx={{margin: '5px 5px'}} onClick={() => dispatch(changeSubreddit(`r/${subreddit}`))}>
-          <ListItem key={index}   >
+        <ListItemButton className={classes.hover} key={index} sx={{margin: '5px 5px'}} onClick={() => dispatch(changeSubreddit(`r/${subreddit}`))}>
+          <ListItem>
           
             <ListItemAvatar>
-                <Avatar>
-                  <ImageIcon />
+                <Avatar alt={subreddit} src={logos[subreddit]}>
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary={subreddit}  />
+              <ListItemText primary={subreddit} />
           
           </ListItem>
         </ListItemButton>
