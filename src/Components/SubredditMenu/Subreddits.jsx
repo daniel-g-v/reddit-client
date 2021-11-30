@@ -8,7 +8,7 @@ import { makeStyles } from '@mui/styles';
 import { changeSubreddit } from '../../features/subredditsSlice';
 import { useDispatch } from 'react-redux';
 import { alpha } from '@mui/material/styles';
-import { ListItemButton } from '@mui/material';
+import { ListItemButton} from '@mui/material';
 import { logos } from '../../utils/subredditLogos';
 
 const useStyles =  makeStyles( theme => ({
@@ -32,7 +32,7 @@ export default function Subreddits() {
   return (
     <>
     <div className={classes.offset}></div>
-    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+    <List sx={{  maxWidth: 275, bgcolor: 'background.paper' }}>
       {
         subredditsList.map((subreddit, index) => (
         <ListItemButton className={classes.hover} key={index} sx={{margin: '5px 5px'}} onClick={() => dispatch(changeSubreddit(`r/${subreddit}`))}>
@@ -42,7 +42,7 @@ export default function Subreddits() {
                 <Avatar alt={subreddit} src={logos[subreddit]}>
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary={subreddit} />
+              <ListItemText primary={subreddit} sx={{display:'flex', flexShrink:'2'}}/>
           
           </ListItem>
         </ListItemButton>

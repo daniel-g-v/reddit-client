@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from './Components/Navbar/Navbar.jsx';
-import { ThemeProvider, Grid } from '@mui/material';
+import { ThemeProvider, Grid, Hidden } from '@mui/material';
 import customTheme from './Components/Navbar/customTheme.js';
 import RedditPosts from './Components/RedditPosts/RedditPosts.jsx';
 import Subreddits from './Components/SubredditMenu/Subreddits.jsx';
@@ -15,17 +15,19 @@ function App() {
         
         <Grid container spacing={0}>
           
-          <Grid item md={4}>
+          <Grid item md={3} xl={4}>
            
           </Grid>
     
-          <Grid item md={4}>
+          <Grid item sm={8} md={4} xl={3} >
             <RedditPosts />
           </Grid>
 
-          <Grid item md={4}>
-            <Subreddits />
-          </Grid>
+          <Hidden smDown>
+            <Grid item sm={4} md={4} xl={5}>
+              <Subreddits />
+            </Grid>
+          </Hidden>
             
         </Grid>
 

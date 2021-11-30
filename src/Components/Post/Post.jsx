@@ -36,7 +36,19 @@ const ExpandMore = styled((props) => {
 
 export default function Post({ data }) {
   const [expanded, setExpanded] = React.useState(false);
-  const { title, ups, permalink, selftext, author, subreddit, url_overridden_by_dest, num_comments, is_video, media, media_metadata, gallery_data, is_gallery } = data;
+  //data retreived from the api response
+  const { title, 
+          ups, 
+          permalink, 
+          selftext, 
+          author, 
+          subreddit, 
+          url_overridden_by_dest, 
+          num_comments, is_video, 
+          media, 
+          is_gallery, 
+          preview } = data;
+
   const dispatch = useDispatch();
   const comments = useSelector(selectComments);
   const commentsLoading = useSelector(isLoadingComments);
@@ -54,14 +66,11 @@ export default function Post({ data }) {
   const executeOnClick = (isExpanded) => {
     console.log(isExpanded);
   }; 
-
-  let galleryImage = '';
-  if (is_gallery) {
-     galleryImage = gallery_data.items[0].media_id;
-     console.log(author+': '+galleryImage)
-     console.log(media_metadata[galleryImage].p)
+  //check if the post has an image
+  let hasImage = '';
+  if (preview) {
+   hasImage = preview.enabled;
   }
-  
   
 
   const card = <div>
@@ -82,8 +91,11 @@ export default function Post({ data }) {
         component={ is_video ? "iframe" : "img" } 
         height={is_video ? media.reddit_video.height/2 : "auto"}
         alt="reddit logo"
-        src= { is_video ? media.reddit_video.fallback_url : is_gallery ? "https://play-lh.googleusercontent.com/MDRjKWEIHO9cGiWt-tlvOGpAP3x14_89jwAT-nQTS6Fra-gxfakizwJ3NHBTClNGYK4" : url_overridden_by_dest === undefined ? "https://play-lh.googleusercontent.com/MDRjKWEIHO9cGiWt-tlvOGpAP3x14_89jwAT-nQTS6Fra-gxfakizwJ3NHBTClNGYK4" 
-        : url_overridden_by_dest } 
+        src= { is_video ? media.reddit_video.fallback_url 
+               : is_gallery ? "https://play-lh.googleusercontent.com/MDRjKWEIHO9cGiWt-tlvOGpAP3x14_89jwAT-nQTS6Fra-gxfakizwJ3NHBTClNGYK4" 
+               : hasImage ? url_overridden_by_dest 
+               : "https://play-lh.googleusercontent.com/MDRjKWEIHO9cGiWt-tlvOGpAP3x14_89jwAT-nQTS6Fra-gxfakizwJ3NHBTClNGYK4"
+              } 
       />
       
       <CardContent>{
@@ -154,7 +166,7 @@ export default function Post({ data }) {
   return (
     <>
         {
-          searchTerm === '' ? card : title.toLowerCase().includes(searchTerm.toLowerCase()) ? card : 'null' 
+          searchTerm === '' ? card : title.toLowerCase().includes(searchTerm.toLowerCase()) ? card : null 
         }
     </>
   );
