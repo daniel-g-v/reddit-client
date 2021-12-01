@@ -32,7 +32,7 @@ export default function Subreddits() {
   return (
     <>
     <div className={classes.offset}></div>
-    <List sx={{  maxWidth: 275, bgcolor: 'background.paper' }}>
+    <List sx={{  maxWidth: 270, bgcolor: 'background.paper' }}>
       {
         subredditsList.map((subreddit, index) => (
         <ListItemButton className={classes.hover} key={index} sx={{margin: '5px 5px'}} onClick={() => dispatch(changeSubreddit(`r/${subreddit}`))}>

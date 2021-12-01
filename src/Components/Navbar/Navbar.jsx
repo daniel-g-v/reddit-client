@@ -8,6 +8,8 @@ import { Box, Hidden, Grid }from '@mui/material';
 import { IconButton } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { changeSubreddit } from '../../features/subredditsSlice.js';
+import TemporaryDrawer from './Drawer';
+
 
 
 
@@ -17,9 +19,9 @@ const Navbar = () => {
 
     return (
         <AppBar position="fixed" >
-          <Toolbar>
+          <Toolbar >
             <Grid container>
-                <Grid item xl={4} lg={4} md={4} sm={4} xs={3}>
+                <Grid item md={4} sm={4} xs={3}>
                     <IconButton onClick={() => dispatch(changeSubreddit(''))}>
                     <Box sx={{
                         display: 'flex'
@@ -36,9 +38,18 @@ const Navbar = () => {
                     </Box>
                     </IconButton>
                 </Grid>
-                <Grid item xl={4} lg={4} md={4} sm={5} xs={6}>    
-                    <Searchbar />
+                <Grid item md={4} sm={5} xs={7}>   
+                    <Box sx={{paddingTop:1}}> 
+                        <Searchbar />
+                    </Box>
                 </Grid>
+                
+                <Grid item xs={2}> 
+                    <Hidden smUp>   
+                        <TemporaryDrawer/>
+                    </Hidden>
+                </Grid>
+                
             </Grid>
           </Toolbar>
         </AppBar>

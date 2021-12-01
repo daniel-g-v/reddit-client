@@ -9,11 +9,12 @@ import Collapse from '@mui/material/Collapse';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { Divider, Link, Stack, Avatar } from '@mui/material';
+import { Link, Stack, Avatar, List, ListItem, Button } from '@mui/material';
 import { ArrowCircleDown } from '@mui/icons-material';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import ReactMarkdown from 'react-markdown';
-import { fetchComments, selectComments, removeComments, isLoadingComments } from '../../features/Posts/postsSlice';
+import { fetchComments, removeComments, isLoadingComments, selectComments } from '../../features/Posts/postsSlice';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
@@ -35,7 +36,8 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function Post({ data }) {
-  const [expanded, setExpanded] = React.useState(false);
+  const [isExpanded, setExpanded] = useState(false);
+  const [showMore, setShowMore] = useState(false);
   //data retreived from the api response
   const { title, 
           ups, 
@@ -50,13 +52,13 @@ export default function Post({ data }) {
           preview } = data;
 
   const dispatch = useDispatch();
-  const comments = useSelector(selectComments);
   const commentsLoading = useSelector(isLoadingComments);
   const searchTerm = useSelector(selectSearchTerm);
+  const childrenArray = useSelector(selectComments)
 
   const handleExpandClick = () => {
-    setExpanded(!expanded);
-    if (!expanded){ 
+    setExpanded(!isExpanded);
+    if (!isExpanded){ 
       dispatch(fetchComments(permalink));
       return;
     };
@@ -72,9 +74,17 @@ export default function Post({ data }) {
    hasImage = preview.enabled;
   }
   
+  const handleShowMorePosts = () => {
+    setShowMore(!showMore);
+  };
+
+  const handleClose = () => {
+    setExpanded(!isExpanded);
+    dispatch(removeComments());
+  };
 
   const card = <div>
-    <Card sx={{ maxWidth: 600, maxHeight: '120%', marginTop: 2}}>
+    <Card sx={{ maxWidth: 600, maxHeight: '120%', margin: 2}}>
       <CardHeader
         title={<Link href={`https://www.reddit.com${permalink}`} sx={{color: 'black', textDecorationLine:'none'}} target='_blank'>{title}</Link>}
         subheader={ 
@@ -129,9 +139,9 @@ export default function Post({ data }) {
         
         
         <ExpandMore
-          expand={expanded}
+          expand={isExpanded}
           onClick={handleExpandClick}
-          aria-expanded={expanded}
+          aria-expanded={isExpanded}
           aria-label="show more"
           sx={{display: 'flex', flexFirection: 'columns'}}
         >
@@ -143,21 +153,44 @@ export default function Post({ data }) {
         
       
       </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      <Collapse in={isExpanded} timeout="auto" unmountOnExit>
         <CardContent>
-          { !commentsLoading ? 
-            comments.map( (dataObject, index) => (
+          { !commentsLoading ?  
               <>
-              <Typography variant="h6" color="initial" key={index}>{dataObject.data.author}</Typography>
-              <Typography variant="body2" color="initial" key={index + 1 }>
-                  {dataObject.data.body}
-              </Typography>
-              <Divider/> 
+                <List>
+                  { !showMore ? 
+                      childrenArray.slice(0,3).map( (dataObject, index) => (
+                    <>
+                      <ListItem key={index}>
+                        <Typography variant="h6" color="initial" >{dataObject.data.author}</Typography>
+                      </ListItem>
+                      <ListItem key={index+1} divider>
+                        <Typography variant="body2" color="initial" >{dataObject.data.body}</Typography>
+                      </ListItem>
+                    </>) 
+                    ) : childrenArray.map( (dataObject, index) => (
+                      <>
+                        <ListItem key={index}>
+                          <Typography variant="h6" color="initial" >{dataObject.data.author}</Typography>
+                        </ListItem>
+                        <ListItem key={index+1} divider>
+                          <Typography variant="body2" color="initial" >{dataObject.data.body}</Typography>
+                        </ListItem>
+                      </>
+                    ) )
+                  }
+                  <Button onClick={handleShowMorePosts} variant="text" color="secondary">
+                    Load more
+                  </Button>
+                  <Button onClick={handleClose} variant="text" color="secondary">
+                    Close
+                  </Button>
+                </List>
               </>
-            )) :	<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+              :	<Box sx={{ display: 'flex', justifyContent: 'center' }}>
                     <Loader type="BallTriangle" color="#00BFFF" height={65} width={65} />
                   </Box>
-          }
+            }
         </CardContent>
       </Collapse>
     </Card> 

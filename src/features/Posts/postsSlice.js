@@ -28,7 +28,7 @@ const postSlice = createSlice({
         isLoading: false,
         rejected: false,
         isLoadingComments: false,
-        comments: []
+        comments: [],
     },
 
     reducers: {
@@ -67,10 +67,9 @@ const postSlice = createSlice({
 
 });
 
-export const { removeComments } = postSlice.actions;
+export const { removeComments, setExpanded, createExpandedInstance } = postSlice.actions;
 export default postSlice.reducer;
 export const selectPosts = (state) => state.posts.posts;
 export const isLoading = (state) => state.posts.isLoading;
 export const isLoadingComments = (state) => state.posts.isLoadingComments;
 export const selectComments = (state) => state.posts.comments;
-
