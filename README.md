@@ -4,7 +4,7 @@ Reddit Client is a React application that retreives data from the Reddit API and
 
 Visit the site by clicking [here](https://reddit-client-daniel.netlify.app/)
 
-#Technologies:
+## Technologies:
 - HTML
 - CSS
 - Javascript
